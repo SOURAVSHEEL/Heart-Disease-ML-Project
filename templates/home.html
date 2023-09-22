@@ -149,6 +149,8 @@
         <!-- Predict Button -->
         <button type="button" onclick="predict()">Predict</button>
     </form>
+    <!--Error Messages-->
+    <div id="error-message"></div>
     <!-- Prediction Result -->
     <p id="prediction-result"></p>
     <script>
@@ -167,7 +169,48 @@
             var slope = document.getElementById('slope').value;
             var ca = document.getElementById('ca').value;
             var thal = document.getElementById('thal').value;
+            // Add validation
+            var errorMessages = [];
 
+            if (age === ""){
+                errorMessages.push("Age is required")
+            }
+            if (sex === ""){
+                errorMessages.push("Sex is required")
+            }
+            if (cp === ""){
+                errorMessages.push("Chest Pain Type is required")
+            }
+            if (trestbps === ""){
+                errorMessages.push("Resting Blood Pressure required")
+            }
+            if (chol === ""){
+                errorMessages.push("Serm Cholesterol is required")
+            }
+            if (fbs === ""){
+                errorMessages.push("Fasting Blood Sugar is required")
+            }
+            if (restecg === ""){
+                errorMessages.push("Resting Electrocardiographic Results is required")
+            }
+            if (thalach === ""){
+                errorMessages.push("Maximum Heart Rate Achieved is required")
+            }
+            if (exang === ""){
+                errorMessages.push("Exercise-Induced Angina is required")
+            }
+            if (oldpeak === ""){
+                errorMessages.push("ST Depression Induced by Exercise is required")
+            }
+            if (slope === ""){
+                errorMessages.push("Slope of Peak Exercisse ST Segment is required")
+            }
+            if (ca === ""){
+                errorMessages.push("Number of Major Vessels Colored by Fluoroscopy is required")
+            }
+            if (thal === ""){
+                errorMessages.push("Thalassemai Type is required")
+            }
             // Send a POST request to the Flask server
             fetch('/predict', {
                 method: 'POST',
