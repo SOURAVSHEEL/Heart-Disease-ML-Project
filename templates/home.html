@@ -6,22 +6,31 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f0f0; /* Background color for the entire page */
         }
         h1 {
             text-align: center;
+            color: #007BFF; /* Title color */
         }
         form {
             width: 50%;
             margin: 0 auto;
+            background-color: #fff; /* Form background color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Form shadow */
         }
         label {
             display: block;
             margin-bottom: 10px;
+            font-weight: bold;
         }
         input, select {
             width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc; /* Input border color */
+            border-radius: 5px;
         }
         button {
             padding: 10px 20px;
@@ -29,13 +38,17 @@
             color: #fff;
             border: none;
             cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3; /* Button color on hover */
         }
         #prediction-result {
             margin-top: 20px;
             font-size: 18px;
             text-align: center;
             font-weight: bold;
-            color: #007BFF;
+            color: #007BFF; /* Result text color */
         }
     </style>
 </head>
@@ -44,76 +57,89 @@
     <form id="prediction-form">
         <!-- Input fields for your features -->
         <!-- Age -->
-        Age: <input type="number" name="age" id="age" required><br><br>
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required><br>
 
         <!-- Sex (Dropdown) -->
-        Sex:
+        <label for="sex">Sex:</label>
         <select name="sex" id="sex" required>
+            <option value="">Not Selected</option>
             <option value="1">Male</option>
             <option value="0">Female</option>
-        </select><br><br>
+        </select><br>
 
         <!-- Chest Pain Type -->
-        Chest Pain Type:
+        <label for="cp">Chest Pain Type:</label>
         <select name="cp" id="cp" required>
+            <option value="">Not Selected</option>
             <option value="0">Typical angina</option>
             <option value="1">Atypical angina</option>
             <option value="2">Non-anginal pain</option>
             <option value="3">Asymptomatic</option>
-        </select><br><br>
+        </select><br>
         
         <!-- Resting Blood Pressure -->
-        Resting Blood Pressure: <input type="number" name="trestbps" id="trestbps" required><br><br>
+        <label for="trestbps">Resting Blood Pressure:</label>
+        <input type="number" name="trestbps" id="trestbps" required><br>
         
         <!-- Serum Cholesterol -->
-        Serum Cholesterol: <input type="number" name="chol" id="chol" required><br><br>
+        <label for="chol">Serum Cholesterol:</label>
+        <input type="number" name="chol" id="chol" required><br>
         
         <!-- Fasting Blood Sugar (> 120 mg/dl) -->
-        Fasting Blood Sugar:
+        <label for="fbs">Fasting Blood Sugar:</label>
         <select name="fbs" id="fbs" required>
+            <option value="">Not Selected</option>
             <option value="1">> 120 mg/dl (True)</option>
             <option value="0"><= 120 mg/dl (False)</option>
-        </select><br><br>
+        </select><br>
         
         <!-- Resting Electrocardiographic Results -->
-        Resting Electrocardiographic Results:
+        <label for="restecg">Resting Electrocardiographic Results:</label>
         <select name="restecg" id="restecg" required>
+            <option value="">Not Selected</option>
             <option value="0">Nothing to note</option>
             <option value="1">ST-T Wave abnormality</option>
             <option value="2">Possible or definite left ventricular hypertrophy</option>
-        </select><br><br>
+        </select><br>
         
         <!-- Maximum Heart Rate Achieved -->
-        Maximum Heart Rate Achieved: <input type="number" name="thalach" id="thalach" required><br><br>
+        <label for="thalach">Maximum Heart Rate Achieved:</label>
+        <input type="number" name="thalach" id="thalach" required><br>
         
         <!-- Exercise-Induced Angina -->
-        Exercise-Induced Angina:
+        <label for="exang">Exercise-Induced Angina:</label>
         <select name="exang" id="exang" required>
+            <option value="">Not Selected</option>
             <option value="1">Yes</option>
             <option value="0">No</option>
-        </select><br><br>
+        </select><br>
         
         <!-- ST Depression Induced by Exercise -->
-        ST Depression Induced by Exercise: <input type="number" name="oldpeak" id="oldpeak" required><br><br>
+        <label for="oldpeak">ST Depression Induced by Exercise:</label>
+        <input type="number" name="oldpeak" id="oldpeak" required><br>
         
         <!-- Slope of Peak Exercise ST Segment -->
-        Slope of Peak Exercise ST Segment:
+        <label for="slope">Slope of Peak Exercise ST Segment:</label>
         <select name="slope" id="slope" required>
+            <option value="">Not Selected</option>
             <option value="0">Upsloping</option>
             <option value="1">Flatsloping</option>
-            <option value="2">Downslopins</option>
-        </select><br><br>
+            <option value="2">Downsloping</option>
+        </select><br>
         
         <!-- Number of Major Vessels Colored by Fluoroscopy -->
-        Number of Major Vessels Colored by Fluoroscopy: <input type="number" name="ca" id="ca" required><br><br>
+        <label for="ca">Number of Major Vessels Colored by Fluoroscopy:</label>
+        <input type="number" name="ca" id="ca" required><br>
         
         <!-- Thalassemia Type -->
-        Thalassemia Type:
+        <label for="thal">Thalassemia Type:</label>
         <select name="thal" id="thal" required>
+            <option value="">Not Selected</option>
             <option value="1,3">Normal</option>
             <option value="6">Fixed defect</option>
             <option value="7">Reversible defect</option>
-        </select><br><br>
+        </select><br>
 
         <!-- Predict Button -->
         <button type="button" onclick="predict()">Predict</button>
@@ -161,8 +187,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Display prediction result
-                var predictionResult = 'Prediction: ' + data.prediction;
+                // Determine the prediction message based on the target value
+                var predictionResult = '';
+                if (data.prediction === 1) {
+                    predictionResult = 'Prediction: You have a heart disease.';
+                } else {
+                    predictionResult = 'Prediction: You do not have a heart disease.';
+                }
                 document.getElementById('prediction-result').innerHTML = predictionResult;
             });
         }
