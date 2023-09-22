@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #prediction-result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <form id="prediction-form">
+        <!-- Input fields for your features -->
+        <!-- Age -->
+        Age: <input type="number" name="age" id="age" required><br><br>
+
+        <!-- Sex (Dropdown) -->
+        Sex:
+        <select name="sex" id="sex" required>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select><br><br>
+
+        <!-- Chest Pain Type -->
+        Chest Pain Type:
+        <select name="cp" id="cp" required>
+            <option value="0">Typical angina</option>
+            <option value="1">Atypical angina</option>
+            <option value="2">Non-anginal pain</option>
+            <option value="3">Asymptomatic</option>
+        </select><br><br>
+        
+        <!-- Resting Blood Pressure -->
+        Resting Blood Pressure: <input type="number" name="trestbps" id="trestbps" required><br><br>
+        
+        <!-- Serum Cholesterol -->
+        Serum Cholesterol: <input type="number" name="chol" id="chol" required><br><br>
+        
+        <!-- Fasting Blood Sugar (> 120 mg/dl) -->
+        Fasting Blood Sugar:
+        <select name="fbs" id="fbs" required>
+            <option value="1">> 120 mg/dl (True)</option>
+            <option value="0"><= 120 mg/dl (False)</option>
+        </select><br><br>
+        
+        <!-- Resting Electrocardiographic Results -->
+        Resting Electrocardiographic Results:
+        <select name="restecg" id="restecg" required>
+            <option value="0">Nothing to note</option>
+            <option value="1">ST-T Wave abnormality</option>
+            <option value="2">Possible or definite left ventricular hypertrophy</option>
+        </select><br><br>
+        
+        <!-- Maximum Heart Rate Achieved -->
+        Maximum Heart Rate Achieved: <input type="number" name="thalach" id="thalach" required><br><br>
+        
+        <!-- Exercise-Induced Angina -->
+        Exercise-Induced Angina:
+        <select name="exang" id="exang" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br><br>
+        
+        <!-- ST Depression Induced by Exercise -->
+        ST Depression Induced by Exercise: <input type="number" name="oldpeak" id="oldpeak" required><br><br>
+        
+        <!-- Slope of Peak Exercise ST Segment -->
+        Slope of Peak Exercise ST Segment:
+        <select name="slope" id="slope" required>
+            <option value="0">Upsloping</option>
+            <option value="1">Flatsloping</option>
+            <option value="2">Downslopins</option>
+        </select><br><br>
+        
+        <!-- Number of Major Vessels Colored by Fluoroscopy -->
+        Number of Major Vessels Colored by Fluoroscopy: <input type="number" name="ca" id="ca" required><br><br>
+        
+        <!-- Thalassemia Type -->
+        Thalassemia Type:
+        <select name="thal" id="thal" required>
+            <option value="1,3">Normal</option>
+            <option value="6">Fixed defect</option>
+            <option value="7">Reversible defect</option>
+        </select><br><br>
+
+        <!-- Predict Button -->
+        <button type="button" onclick="predict()">Predict</button>
+    </form>
+    <!-- Prediction Result -->
+    <p id="prediction-result"></p>
+    <script>
+        function predict() {
+            // Collect input values
+            var age = document.getElementById('age').value;
+            var sex = document.getElementById('sex').value;
+            var cp = document.getElementById('cp').value;
+            var trestbps = document.getElementById('trestbps').value;
+            var chol = document.getElementById('chol').value;
+            var fbs = document.getElementById('fbs').value;
+            var restecg = document.getElementById('restecg').value;
+            var thalach = document.getElementById('thalach').value;
+            var exang = document.getElementById('exang').value;
+            var oldpeak = document.getElementById('oldpeak').value;
+            var slope = document.getElementById('slope').value;
+            var ca = document.getElementById('ca').value;
+            var thal = document.getElementById('thal').value;
+
+            // Send a POST request to the Flask server
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'age': age,
+                    'sex': sex,
+                    'cp': cp,
+                    'trestbps': trestbps,
+                    'chol': chol,
+                    'fbs': fbs,
+                    'restecg': restecg,
+                    'thalach': thalach,
+                    'exang': exang,
+                    'oldpeak': oldpeak,
+                    'slope': slope,
+                    'ca': ca,
+                    'thal': thal
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display prediction result
+                var predictionResult = 'Prediction: ' + data.prediction;
+                document.getElementById('prediction-result').innerHTML = predictionResult;
+            });
+        }
+    </script>
+</body>
+</html>
